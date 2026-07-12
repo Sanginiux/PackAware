@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PackAware - Sustainability Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-green-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-bold">PackAware</div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="/" class="hover:text-green-200">Home</a>
+                    <a href="/quiz" class="hover:text-green-200">Quiz</a>
+                    <a href="#about" class="hover:text-green-200">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quiz Section -->
+    <div class="container mx-auto px-6 py-8">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-center mb-8">Test Your Packaging Knowledge</h1>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div id="quiz-container">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+                
+                <div id="results-container" class="hidden text-center">
+                    <h2 class="text-2xl font-bold mb-4">Quiz Results</h2>
+                    <p class="text-lg mb-4">You scored: <span id="score" class="font-bold"></span></p>
+                    <button onclick="resetQuiz()" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which plastic type is most commonly used in beverage bottles?",
+                options: ["PET", "HDPE", "PVC", "PP"],
+                correct: 0
+            },
+            {
+                question: "What percentage of plastic packaging is recycled globally?",
+                options: ["14%", "25%", "40%", "55%"],
+                correct: 0
+            },
+            {
+                question: "Which packaging material has the lowest environmental impact?",
+                options: ["Glass", "Aluminum", "Paper", "Biodegradable plastics"],
+                correct: 2
+            },
+            {
+                question: "How long does it take for a plastic bottle to decompose?",
+                options: ["50 years", "100 years", "450 years", "1000 years"],
+                correct: 2
+            },
+            {
+                question: "Which symbol indicates that packaging is recyclable?",
+                options: ["Mobius Loop", "Green Dot", "Tidyman", "Resin Code"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quiz-container');
+            
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold mb-4">Question ${currentQuestion + 1}/${questions.length}</h2>
+                    <p class="text-lg mb-4">${q.question}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((option, index) => `
+                            <button onclick="checkAnswer(${index})" class="w-full text-left p-3 rounded border hover:bg-gray-50">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkAnswer(selected) {
+            const correct = questions[currentQuestion].correct;
+            
+            if (selected === correct) {
+                score++;
+            }
+            
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+            document.getElementById('score').textContent = `${score}/${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('results-container').classList.add('hidden');
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>

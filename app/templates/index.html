@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PackAware - Sustainable Packaging Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
+                        PackAware
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300">Home</a>
+                    <a href="/quiz" class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300">Quiz</a>
+                    <a href="#about" class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300">About</a>
+                    <a href="#upload" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105">
+                        Start Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Spacer for fixed nav -->
+    <div class="h-16"></div>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 text-white py-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-5xl font-bold mb-6 animate-fade-in">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-green-100">
+                        Analyze Your Product Packaging
+                    </span>
+                </h1>
+                <p class="text-2xl mb-8 text-green-100">Upload an image or enter details to get sustainability insights</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#upload" class="bg-white text-green-600 px-8 py-3 rounded-full font-semibold hover:bg-green-100 transition-colors duration-300">
+                        Get Started
+                    </a>
+                    <a href="#about" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-green-600 transition-colors duration-300">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="upload" class="container mx-auto px-6 py-16">
+        <!-- Image Upload Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 mb-12 transform hover:scale-[1.02] transition-transform duration-300">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">Analyze Packaging</h2>
+                <p class="text-gray-600 mt-2">Upload or capture an image of your product packaging for instant analysis</p>
+            </div>
+            <form id="uploadForm" class="space-y-4" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Upload Section -->
+                    <div class="border-2 border-dashed border-green-300 rounded-lg p-6 text-center hover:border-green-500 transition-colors duration-300 bg-gradient-to-b from-green-50 to-white">
+                        <input type="file" id="imageUpload" name="image" class="hidden" accept="image/*" capture="environment">
+                        <label for="imageUpload" class="cursor-pointer">
+                            <div id="dropZone" class="text-gray-600">
+                                <div class="flex justify-center space-x-4 mb-4">
+                                    <button type="button" class="p-3 rounded-full bg-green-100 hover:bg-green-200 transition-colors duration-300">
+                                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="button" id="cameraButton" class="p-3 rounded-full bg-green-100 hover:bg-green-200 transition-colors duration-300">
+                                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Upload image or use camera</p>
+                                <p class="text-xs text-gray-500">Supported formats: JPG, PNG, JPEG</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div id="imagePreviewContainer" class="hidden border-2 border-green-200 rounded-lg p-6 bg-white">
+                        <div class="relative">
+                            <img id="imagePreview" class="max-h-48 mx-auto rounded-lg shadow-lg" src="" alt="Preview">
+                            <button type="button" id="removeImage" class="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors duration-300">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camera Video Feed -->
+                <div id="cameraContainer" class="hidden mt-4">
+                    <video id="cameraFeed" class="w-full max-h-96 rounded-lg" autoplay playsinline></video>
+                    <button type="button" id="captureButton" class="mt-2 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                        Capture Photo
+                    </button>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                    Analyze
+                </button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 hidden">
+            <h2 class="text-2xl font-bold mb-4">Analysis Results</h2>
+            <div class="space-y-6">
+                <!-- Basic Info -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="font-semibold">Packaging Type:</h3>
+                        <p id="packagingType" class="text-gray-600"></p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Material:</h3>
+                        <p id="material" class="text-gray-600"></p>
+                    </div>
+                </div>
+
+                <!-- Eco Scores -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg mb-3">Eco Scores</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="ecoScores">
+                        <!-- Eco scores will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Environmental Impact -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg mb-3">Environmental Impact</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="environmentalImpact">
+                        <!-- Environmental impact will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Material Composition -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg mb-3">Material Composition</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="materialPercentages">
+                        <!-- Material percentages will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Recycling Tips -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg mb-3">Recycling Tips</h3>
+                    <ul id="recyclingTips" class="list-disc list-inside text-gray-600 space-y-2">
+                        <!-- Recycling tips will be populated here -->
+                    </ul>
+                </div>
+
+                <!-- Sustainable Alternatives -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg mb-3">Sustainable Alternatives</h3>
+                    <div id="alternatives" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Alternatives will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Product Recommendations -->
+                <div class="border rounded-lg p-4 bg-gradient-to-r from-green-50 to-blue-50">
+                    <h3 class="font-semibold text-lg mb-3">Eco-Friendly Product Recommendations</h3>
+                    <div id="recommendations" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Product recommendations will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="py-20 bg-gradient-to-b from-white to-green-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">About PackAware</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-green-500 to-teal-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition-transform duration-300">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-teal-400 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Smart Analysis</h3>
+                        <p class="text-gray-600">
+                            PackAware is your smart companion for making environmentally conscious packaging decisions. 
+                            Our platform analyzes product packaging and provides insights about its environmental impact.
+                        </p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition-transform duration-300">
+                        <div class="w-16 h-16 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Advanced Technology</h3>
+                        <p class="text-gray-600">
+                            We use advanced image recognition and machine learning to identify packaging materials 
+                            and provide detailed sustainability metrics to help you make informed choices.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Camera handling
+        const cameraButton = document.getElementById('cameraButton');
+        const cameraContainer = document.getElementById('cameraContainer');
+        const cameraFeed = document.getElementById('cameraFeed');
+        const captureButton = document.getElementById('captureButton');
+        let stream = null;
+
+        cameraButton.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
+                cameraFeed.srcObject = stream;
+                cameraContainer.classList.remove('hidden');
+                dropZone.classList.add('hidden');
+            } catch (err) {
+                alert('Could not access camera. Please ensure you have granted camera permissions.');
+            }
+        });
+
+        captureButton.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = cameraFeed.videoWidth;
+            canvas.height = cameraFeed.videoHeight;
+            canvas.getContext('2d').drawImage(cameraFeed, 0, 0);
+            canvas.toBlob((blob) => {
+                const file = new File([blob], "camera-capture.jpg", { type: "image/jpeg" });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageUpload.files = dataTransfer.files;
+                showPreview(file);
+            }, 'image/jpeg');
+
+            // Stop camera stream
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            cameraContainer.classList.add('hidden');
+        });
+
+        // Image preview handling
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const dropZone = document.getElementById('dropZone');
+        const removeImageBtn = document.getElementById('removeImage');
+
+        function showPreview(file) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    dropZone.classList.add('hidden');
+                    imagePreviewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            showPreview(file);
+        });
+
+        removeImageBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            imageUpload.value = '';
+            imagePreview.src = '';
+            dropZone.classList.remove('hidden');
+            imagePreviewContainer.classList.add('hidden');
+        });
+
+        // Drag and drop handling
+        const uploadForm = document.getElementById('uploadForm');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadForm.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadForm.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadForm.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            uploadForm.classList.add('border-green-500');
+        }
+
+        function unhighlight(e) {
+            uploadForm.classList.remove('border-green-500');
+        }
+
+        uploadForm.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const file = dt.files[0];
+            imageUpload.files = dt.files;
+            showPreview(file);
+        }
+
+        // Form submission
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const imageFile = document.getElementById('imageUpload').files[0];
+            
+            if (!imageFile) {
+                alert('Please select an image first');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white inline mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Analyzing...
+            `;
+            
+            formData.append('image', imageFile);
+            
+            try {
+                const csrf_token = document.querySelector('input[name="csrf_token"]').value;
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': csrf_token
+                    },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResults(data);
+                } else {
+                    alert(data.error || 'An error occurred');
+                }
+            } catch (error) {
+                alert('An error occurred while analyzing the image');
+            }
+        });
+
+        function displayResults(data) {
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('packagingType').textContent = data.packaging_type;
+            document.getElementById('material').textContent = data.material;
+
+            // Display Eco Scores
+            const ecoScoresDiv = document.getElementById('ecoScores');
+            ecoScoresDiv.innerHTML = '';
+            Object.entries(data.eco_scores).forEach(([key, value]) => {
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'text-center';
+                const formattedKey = key.split('_').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+                scoreDiv.innerHTML = `
+                    <div class="text-sm text-gray-600">${formattedKey}</div>
+                    <div class="text-lg font-semibold ${getScoreColor(value)}">${value}/10</div>
+                `;
+                ecoScoresDiv.appendChild(scoreDiv);
+            });
+
+            // Display Environmental Impact
+            const envImpactDiv = document.getElementById('environmentalImpact');
+            envImpactDiv.innerHTML = '';
+            Object.entries(data.environmental_impact).forEach(([key, value]) => {
+                const impactDiv = document.createElement('div');
+                const formattedKey = key.split('_').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+                impactDiv.innerHTML = `
+                    <div class="text-sm font-semibold">${formattedKey}:</div>
+                    <div class="text-gray-600">${value}</div>
+                `;
+                envImpactDiv.appendChild(impactDiv);
+            });
+
+            // Display Material Percentages
+            const materialPercentagesDiv = document.getElementById('materialPercentages');
+            materialPercentagesDiv.innerHTML = '';
+            Object.entries(data.material_percentages).forEach(([material, percentage]) => {
+                const percentDiv = document.createElement('div');
+                percentDiv.className = 'text-center';
+                percentDiv.innerHTML = `
+                    <div class="text-sm text-gray-600">${material}</div>
+                    <div class="text-lg font-semibold">${percentage}</div>
+                `;
+                materialPercentagesDiv.appendChild(percentDiv);
+            });
+
+            // Display Recycling Tips
+            const recyclingTipsUl = document.getElementById('recyclingTips');
+            recyclingTipsUl.innerHTML = '';
+            data.recycling_tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                recyclingTipsUl.appendChild(li);
+            });
+            
+            // Display Alternatives with details
+            const alternativesDiv = document.getElementById('alternatives');
+            alternativesDiv.innerHTML = '';
+            data.alternatives.forEach(alt => {
+                const altDiv = document.createElement('div');
+                altDiv.className = 'p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300';
+                altDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-medium text-gray-900">${alt}</h4>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Recommended sustainable alternative with lower environmental impact.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                alternativesDiv.appendChild(altDiv);
+            });
+
+            // Display Product Recommendations
+            const recommendationsDiv = document.getElementById('recommendations');
+            recommendationsDiv.innerHTML = '';
+            const recommendations = [
+                {
+                    name: 'Reusable Glass Container',
+                    price: '$12.99',
+                    rating: 4.5,
+                    image: 'https://example.com/glass-container.jpg'
+                },
+                {
+                    name: 'Bamboo Food Storage',
+                    price: '$19.99',
+                    rating: 4.8,
+                    image: 'https://example.com/bamboo-storage.jpg'
+                },
+                {
+                    name: 'Stainless Steel Container',
+                    price: '$24.99',
+                    rating: 4.7,
+                    image: 'https://example.com/steel-container.jpg'
+                }
+            ];
+
+            recommendations.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden';
+                productDiv.innerHTML = `
+                    <div class="p-4">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden">
+                            <div class="h-48 bg-green-100 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-lg font-medium text-gray-900">${product.name}</h3>
+                            <div class="mt-1 flex justify-between items-center">
+                                <span class="text-lg font-bold text-green-600">${product.price}</span>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <span class="ml-1 text-sm text-gray-600">${product.rating}</span>
+                                </div>
+                            </div>
+                            <button class="mt-4 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors duration-300">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                recommendationsDiv.appendChild(productDiv);
+            });
+        }
+
+        function getScoreColor(score) {
+            if (score >= 8) return 'text-green-600';
+            if (score >= 6) return 'text-yellow-600';
+            return 'text-red-600';
+        }
+    </script>
+</body>
+</html>
