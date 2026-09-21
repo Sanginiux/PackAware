@@ -91,8 +91,6 @@ python main.py
 
 ---
 
----
-
 ## Project Highlights
 
 - Encourages sustainable packaging practices
