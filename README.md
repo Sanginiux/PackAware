@@ -91,32 +91,6 @@ python main.py
 
 ---
 
-## Screenshots
-
-### Home Screen
-
-> Add a screenshot here.
-
-```
-screenshots/home.png
-```
-
-### Analysis Result
-
-> Add a screenshot here.
-
-```
-screenshots/result.png
-```
-
-### Recommendation Dashboard
-
-> Add a screenshot here.
-
-```
-screenshots/dashboard.png
-```
-
 ---
 
 ## Project Highlights
